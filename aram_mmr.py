@@ -31,9 +31,9 @@ def get_mmr(name, region):
     elif err == 200:
         response = "Try using !mmr ign server. The server is EUW by default."
     elif err == 100:
-        response = f"Summoner{name} was not found. Check for spelling or specify your server"
+        response = f"Summoner {name} was not found. Check for spelling mistakes or specify your server"
     elif err == 101 or mmr is None or rank is None:
-        response = f"Not enough recent games for{name}."
+        response = f"Not enough recent games for {name}."
     elif err == 9001:
         response = "Too many requests. Please try again later."
     else:
