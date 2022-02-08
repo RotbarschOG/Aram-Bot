@@ -51,6 +51,40 @@ async def on_message(message):
             await message.channel.send(response, file=discord.File("images/" + rank.lower().split(" ")[0] + ".webp"))
         return
 
+    # detect multi command
+    if split_msg[0] == "!multi":
+        # seperates message, only works if " joined the lobby" or ", " is between names and region
+        user_message_multi = user_message.replace(", ", " joined the lobby")
+        split_msg_multi = user_message_multi.split(" joined the lobby")
+        # removes "!multi" from array, split_msg_multi should only be names or whitespaces now
+        split_msg_multi[0] = split_msg_multi[0].replace("!multi", "")
+        last = split_msg_multi[len(split_msg_multi)-1].lower()
+        # set default region to euw
+        region = "euw"
+        # check if specific region is present
+        if last.replace(" ", "") == "euw" or last == "eune" or last == "na":
+            region = last.replace(" ", "")
+            # remove region from string
+            split_msg_multi.pop()
+        # limits ammount of names you can look up at the same time to 10, to avoid too many API requests
+        if len(split_msg_multi)>10:
+            await message.channel.send("too many requests.")
+            return
+        multi_response = ""
+        # construct response by checking each non-empty index
+        for i in range(0, len(split_msg_multi)):
+            if split_msg_multi[i] != " ":
+                response = aram_mmr.get_mmr(split_msg_multi[i], region)
+                if i < len(split_msg_multi)-1:
+                    multi_response = multi_response + response + ", "
+                else:
+                    multi_response = multi_response + response
+        # print message
+        await message.channel.send(multi_response)
+        # sleeps for the same time as ammount of names searched for, to limit searches to below 60 per minute
+        time.sleep(len(split_msg_multi))
+        return
+
 # web server
 keep_alive()
 client.run(TOKEN)
