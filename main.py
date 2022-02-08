@@ -18,7 +18,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     time.sleep(1)
-    if message.channel.name != "aram-scoreboard":
+    if message.channel.name != "aram-scoreboard" and message.channel.name != "bot-commands":
         return
     # username = str(message.author).split('#')[0]
     user_message = str(message.content)
