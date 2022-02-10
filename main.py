@@ -72,7 +72,7 @@ async def on_message(message):
             return
         multi_response = ""
         # construct response by checking each non-empty index
-        for i in range(0, len(split_msg_multi)-1):
+        for i in range(0, len(split_msg_multi)):
             if split_msg_multi[i] != " ":
                 response = aram_mmr.get_mmr(split_msg_multi[i], region)
                 multi_response = multi_response + response
