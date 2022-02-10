@@ -62,7 +62,7 @@ async def on_message(message):
         # set default region to euw
         region = "euw"
         # check if specific region is present
-        if last.replace(" ", "") == "euw" or last == "eune" or last == "na":
+        if last.replace(" ", "") == "euw" or last == "eune" or last == "na" or last == "kr":
             region = last.replace(" ", "")
             # remove region from string
             split_msg_multi.pop()
@@ -72,13 +72,10 @@ async def on_message(message):
             return
         multi_response = ""
         # construct response by checking each non-empty index
-        for i in range(0, len(split_msg_multi)):
+        for i in range(0, len(split_msg_multi)-1):
             if split_msg_multi[i] != " ":
                 response = aram_mmr.get_mmr(split_msg_multi[i], region)
-                if i < len(split_msg_multi)-1:
-                    multi_response = multi_response + response + ", "
-                else:
-                    multi_response = multi_response + response
+                multi_response = multi_response + response
         # print message
         await message.channel.send(multi_response)
         # sleeps for the same time as ammount of names searched for, to limit searches to below 60 per minute
