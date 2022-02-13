@@ -24,14 +24,15 @@ def get_data(name, region):
 
 def get_mmr(name, region):
     mmr, deviation, rank, err = get_data(name, region)
-    # error on the API's part
+    # error on the APIs part
     if err == 0 or err == 1:
         response = "Unexpected Error."
     # no name was given
     elif err == 200:
         response = "Try using !mmr ign server. The server is EUW by default."
     elif err == 100:
-        response = f"Summoner {name} was not found. Check for spelling mistakes or specify your server"
+        response = f"Summoner {name} was not found. Check for spelling mistakes or specify your server" \
+                   f" (EUW, EUNE, NA or KR)"
     elif err == 101 or mmr is None or rank is None:
         response = f"Not enough recent games for {name}."
     elif err == 9001:
